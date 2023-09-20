@@ -154,7 +154,8 @@ def get_uart_message():
     # request the device's ID and read the response
     try:
         data_raw = uart.readline()
-        if data_raw.strip():
+        data_raw = data_raw.strip()
+        if data_raw:
             serial_read_ok = True
             output_data(data_raw.decode('utf-8'))
         else:
@@ -170,7 +171,7 @@ def output_data(data_raw):
 
     # append the result to the CSV
     if serial_read_ok:
-        file_csv.write("%s,%s" % (timestamp, data_raw))
+        file_csv.write("%s,%s\n" % (timestamp, data_raw))
         
 import sys, signal
 def signal_handler(signal, frame):
