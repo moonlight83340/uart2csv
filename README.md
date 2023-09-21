@@ -9,3 +9,9 @@ Tested to work on Windows.
 ### Python Version
 
 Python 3.10.6
+
+**Windows environment setup**  
+[Download](https://www.python.org/downloads/windows/) the latest Python 3 version.
+```text
+> pip install -r pyserial
+```
