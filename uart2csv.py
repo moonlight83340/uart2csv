@@ -38,10 +38,6 @@ folder_output = "csv"
 
 serial_baud_rate     = 115200
 serial_timeout_read  = 0.05        # number of seconds after which we consider the serial read operation to have failed
-serial_timeout_msg   = "--READ-TIMEOUT--"
-serial_too_short_msg = "--ADDR-TOO-SHORT: "
-serial_cmd           = "\r"        # characters sent to request the device ID
-length_device_id     = 16
 
 # -----------------------------------------------------------------------------
 # global variables
@@ -88,7 +84,15 @@ def select_a_serial_port(available_ports):                                      
             for port,desc,_ in available_ports:
                 print ("    (%d) %s \"%s\"" % (item,port,desc))
                 item=item+1
-            selected_item = int(input(">>> "))                               # TODO: handle character input
+            while True:
+                try:
+                    # Try to convert input to integer
+                    selected_item = int(input(">>> "))  
+                    # If input is valid go to next line
+                    break # End loop
+                except:
+                    # Handle Value Error
+                    print("Invalid input!")
             # check if a valid item was selected
             if (selected_item > 0) and (selected_item <= len(available_ports)):
                 (selected_port,_,_) = available_ports[selected_item-1]
@@ -182,7 +186,6 @@ def signal_handler(signal, frame):
 # -----------------------------------------------------------------------------
 
 if __name__ == '__main__':
-
     signal.signal(signal.SIGINT, signal_handler)
     select_a_serial_port(get_available_serial_ports())
     open_selected_serial_port()
